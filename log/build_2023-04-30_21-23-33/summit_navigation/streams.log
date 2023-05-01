@@ -1,0 +1,32 @@
+[0.013s] Invoking command in '/home/matej/Desktop/summit_xl_ws/build/summit_navigation': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --build /home/matej/Desktop/summit_xl_ws/build/summit_navigation -- -j16 -l16
+[0.038s] -- Found ament_cmake: 0.9.11 (/opt/ros/foxy/share/ament_cmake/cmake)
+[0.059s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[0.267s] -- Configuring done
+[0.273s] -- Generating done
+[0.275s] -- Build files have been written to: /home/matej/Desktop/summit_xl_ws/build/summit_navigation
+[0.295s] Invoked command in '/home/matej/Desktop/summit_xl_ws/build/summit_navigation' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --build /home/matej/Desktop/summit_xl_ws/build/summit_navigation -- -j16 -l16
+[0.321s] Invoking command in '/home/matej/Desktop/summit_xl_ws/build/summit_navigation': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --install /home/matej/Desktop/summit_xl_ws/build/summit_navigation
+[0.328s] -- Install configuration: ""
+[0.328s] -- Installing: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/launch
+[0.328s] -- Installing: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/launch/summit_navigation.launch.py
+[0.328s] -- Installing: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/params
+[0.328s] -- Installing: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/params/summit_navigation_params.yaml
+[0.328s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/maps
+[0.328s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/maps/summit_map.yaml
+[0.328s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/maps/summit_map.png
+[0.329s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/ament_index/resource_index/package_run_dependencies/summit_navigation
+[0.329s] -- Installing: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/ament_index/resource_index/parent_prefix_path/summit_navigation
+[0.329s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/environment/ament_prefix_path.sh
+[0.329s] -- Installing: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/environment/ament_prefix_path.dsv
+[0.329s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/environment/path.sh
+[0.329s] -- Installing: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/environment/path.dsv
+[0.329s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/local_setup.bash
+[0.329s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/local_setup.sh
+[0.329s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/local_setup.zsh
+[0.329s] -- Installing: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/local_setup.dsv
+[0.329s] -- Installing: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/package.dsv
+[0.329s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/ament_index/resource_index/packages/summit_navigation
+[0.330s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/cmake/summit_navigationConfig.cmake
+[0.330s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/cmake/summit_navigationConfig-version.cmake
+[0.330s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/package.xml
+[0.332s] Invoked command in '/home/matej/Desktop/summit_xl_ws/build/summit_navigation' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --install /home/matej/Desktop/summit_xl_ws/build/summit_navigation

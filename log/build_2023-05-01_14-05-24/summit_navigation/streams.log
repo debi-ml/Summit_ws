@@ -1,0 +1,29 @@
+[0.016s] Invoking command in '/home/matej/Desktop/summit_xl_ws/build/summit_navigation': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/matej/IsaacSim-ros_workspaces/foxy_ws/install/isaac_ros_navigation_goal:/opt/ros/foxy /usr/bin/cmake --build /home/matej/Desktop/summit_xl_ws/build/summit_navigation -- -j16 -l16
+[0.067s] Invoked command in '/home/matej/Desktop/summit_xl_ws/build/summit_navigation' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/matej/IsaacSim-ros_workspaces/foxy_ws/install/isaac_ros_navigation_goal:/opt/ros/foxy /usr/bin/cmake --build /home/matej/Desktop/summit_xl_ws/build/summit_navigation -- -j16 -l16
+[0.094s] Invoking command in '/home/matej/Desktop/summit_xl_ws/build/summit_navigation': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/matej/IsaacSim-ros_workspaces/foxy_ws/install/isaac_ros_navigation_goal:/opt/ros/foxy /usr/bin/cmake --install /home/matej/Desktop/summit_xl_ws/build/summit_navigation
+[0.101s] -- Install configuration: ""
+[0.101s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/launch
+[0.101s] -- Installing: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/launch/summit_navigation.launch.py
+[0.102s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/params
+[0.102s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/params/summit_navigation_params.yaml
+[0.102s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/maps
+[0.102s] -- Installing: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/maps/carter_warehouse_navigation.png
+[0.102s] -- Installing: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/maps/carter_warehouse_navigation.yaml
+[0.102s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/maps/summit_map.yaml
+[0.102s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/maps/summit_map.png
+[0.103s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/ament_index/resource_index/package_run_dependencies/summit_navigation
+[0.103s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/ament_index/resource_index/parent_prefix_path/summit_navigation
+[0.103s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/environment/ament_prefix_path.sh
+[0.103s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/environment/ament_prefix_path.dsv
+[0.103s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/environment/path.sh
+[0.103s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/environment/path.dsv
+[0.103s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/local_setup.bash
+[0.103s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/local_setup.sh
+[0.103s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/local_setup.zsh
+[0.104s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/local_setup.dsv
+[0.104s] -- Installing: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/package.dsv
+[0.105s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/ament_index/resource_index/packages/summit_navigation
+[0.105s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/cmake/summit_navigationConfig.cmake
+[0.106s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/cmake/summit_navigationConfig-version.cmake
+[0.106s] -- Up-to-date: /home/matej/Desktop/summit_xl_ws/install/summit_navigation/share/summit_navigation/package.xml
+[0.106s] Invoked command in '/home/matej/Desktop/summit_xl_ws/build/summit_navigation' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/matej/IsaacSim-ros_workspaces/foxy_ws/install/isaac_ros_navigation_goal:/opt/ros/foxy /usr/bin/cmake --install /home/matej/Desktop/summit_xl_ws/build/summit_navigation
