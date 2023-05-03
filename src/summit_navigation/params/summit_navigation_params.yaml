@@ -26,7 +26,7 @@ amcl:
     recovery_alpha_fast: 0.0
     recovery_alpha_slow: 0.0
     resample_interval: 1
-    robot_model_type: "differential"
+    robot_model_type: "omnidirectional"
     save_pose_rate: 0.5
     sigma_hit: 0.2
     tf_broadcast: true
@@ -37,8 +37,8 @@ amcl:
     z_max: 0.05
     z_rand: 0.5
     z_short: 0.05
-    set_initial_pose: True
-    initial_pose: {x: -6.0, y: -1.0, z: 0.0, yaw: 3.14159}
+    set_initial_pose: False
+    initial_pose: {x: 0.0, y: 0.0, z: 0.0, yaw: 0.0}
 
 amcl_map_client:
   ros__parameters:
@@ -97,16 +97,16 @@ controller_server:
       min_vel_x: 0.0
       min_vel_y: 0.0
       max_vel_x: 0.5
-      max_vel_y: 0.0
+      max_vel_y: 0.5
       max_vel_theta: 1.0
       min_speed_xy: 0.0
       max_speed_xy: 0.5
       min_speed_theta: 0.0
       acc_lim_x: 2.5
-      acc_lim_y: 0.0
+      acc_lim_y: 2.5
       acc_lim_theta: 3.2
       decel_lim_x: -2.5
-      decel_lim_y: 0.0
+      decel_lim_y: -2.5
       decel_lim_theta: -3.2
       vx_samples: 20
       vy_samples: 5
@@ -173,13 +173,13 @@ local_costmap:
         z_voxels: 16
         max_obstacle_height: 2.0
         mark_threshold: 0
-        observation_sources: pointcloud
+        observation_sources: scan
         pointcloud:
-          topic: /point_cloud
+          topic: /scan
           max_obstacle_height: 2.0
           clearing: True
           marking: True
-          data_type: "PointCloud2"
+          data_type: "LaserScan"
       static_layer:
         map_subscribe_transient_local: True
       always_send_full_costmap: True
@@ -220,13 +220,13 @@ global_costmap:
         z_voxels: 16
         max_obstacle_height: 2.0
         mark_threshold: 0
-        observation_sources: pointcloud
+        observation_sources: scan
         pointcloud:
-          topic: /point_cloud
+          topic: /scan
           max_obstacle_height: 2.0
           clearing: True
           marking: True
-          data_type: "PointCloud2"
+          data_type: "LaserScan"
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
@@ -243,7 +243,7 @@ global_costmap:
 map_server:
   ros__parameters:
     use_sim_time: True
-    yaml_filename: "carter_warehouse_navigation.yaml"
+    yaml_filename: "summit_map.yaml"
 
 map_saver:
   ros__parameters:
