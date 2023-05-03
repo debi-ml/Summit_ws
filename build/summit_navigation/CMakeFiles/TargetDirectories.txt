@@ -1,9 +1,0 @@
-/home/matej/Desktop/summit_xl_ws/build/summit_navigation/CMakeFiles/install/strip.dir
-/home/matej/Desktop/summit_xl_ws/build/summit_navigation/CMakeFiles/install/local.dir
-/home/matej/Desktop/summit_xl_ws/build/summit_navigation/CMakeFiles/install.dir
-/home/matej/Desktop/summit_xl_ws/build/summit_navigation/CMakeFiles/list_install_components.dir
-/home/matej/Desktop/summit_xl_ws/build/summit_navigation/CMakeFiles/rebuild_cache.dir
-/home/matej/Desktop/summit_xl_ws/build/summit_navigation/CMakeFiles/edit_cache.dir
-/home/matej/Desktop/summit_xl_ws/build/summit_navigation/CMakeFiles/test.dir
-/home/matej/Desktop/summit_xl_ws/build/summit_navigation/CMakeFiles/summit_navigation_uninstall.dir
-/home/matej/Desktop/summit_xl_ws/build/summit_navigation/CMakeFiles/uninstall.dir
