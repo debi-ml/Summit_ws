@@ -1,0 +1,1942 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (0.3693871171445456, -9.003980240013048, 8.017109173630415)
+                double3 target = (7.099751340878531, 11.059024201244176, -8.766191583135234)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./summit_xl_navigation.usd"
+            dictionary muteness = {
+            }
+        }
+        dictionary renderSettings = {
+            float3 "rtx:debugView:pixelDebug:textColor" = (0, 1e18, 0)
+            int "rtx:externalFrameCounter" = 81494
+            float3 "rtx:fog:fogColor" = (0.75, 0.75, 0.75)
+            float3 "rtx:post:backgroundZeroAlpha:backgroundDefaultColor" = (0, 0, 0)
+            float3 "rtx:post:colorcorr:contrast" = (1, 1, 1)
+            float3 "rtx:post:colorcorr:gain" = (1, 1, 1)
+            float3 "rtx:post:colorcorr:gamma" = (1, 1, 1)
+            float3 "rtx:post:colorcorr:offset" = (0, 0, 0)
+            float3 "rtx:post:colorcorr:saturation" = (1, 1, 1)
+            float3 "rtx:post:colorgrad:blackpoint" = (0, 0, 0)
+            float3 "rtx:post:colorgrad:contrast" = (1, 1, 1)
+            float3 "rtx:post:colorgrad:gain" = (1, 1, 1)
+            float3 "rtx:post:colorgrad:gamma" = (1, 1, 1)
+            float3 "rtx:post:colorgrad:lift" = (0, 0, 0)
+            float3 "rtx:post:colorgrad:multiply" = (1, 1, 1)
+            float3 "rtx:post:colorgrad:offset" = (0, 0, 0)
+            float3 "rtx:post:colorgrad:whitepoint" = (1, 1, 1)
+            float3 "rtx:post:lensDistortion:lensFocalLengthArray" = (10, 30, 50)
+            float3 "rtx:post:lensFlares:anisoFlareFalloffX" = (450, 475, 500)
+            float3 "rtx:post:lensFlares:anisoFlareFalloffY" = (10, 10, 10)
+            float3 "rtx:post:lensFlares:cutoffPoint" = (2, 2, 2)
+            float3 "rtx:post:lensFlares:haloFlareFalloff" = (10, 10, 10)
+            float3 "rtx:post:lensFlares:haloFlareRadius" = (75, 75, 75)
+            float3 "rtx:post:lensFlares:isotropicFlareFalloff" = (50, 50, 50)
+            float3 "rtx:post:tonemap:whitepoint" = (1, 1, 1)
+            float3 "rtx:raytracing:inscattering:singleScatteringAlbedo" = (0.9, 0.9, 0.9)
+            float3 "rtx:raytracing:inscattering:transmittanceColor" = (0.5, 0.5, 0.5)
+            float3 "rtx:sceneDb:ambientLightColor" = (0.1, 0.1, 0.1)
+        }
+    }
+    defaultPrim = "World"
+    endTimeCode = 100
+    metersPerUnit = 1
+    startTimeCode = 0
+    timeCodesPerSecond = 24
+    upAxis = "Z"
+)
+
+def Xform "World"
+{
+    def Xform "GroundPlane"
+    {
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Mesh "CollisionMesh"
+        {
+            uniform bool doubleSided = 0
+            int[] faceVertexCounts = [4]
+            int[] faceVertexIndices = [0, 1, 2, 3]
+            normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1)]
+            point3f[] points = [(-25, -25, 0), (25, -25, 0), (25, 25, 0), (-25, 25, 0)]
+            color3f[] primvars:displayColor = [(0.5, 0.5, 0.5)]
+            texCoord2f[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1)] (
+                interpolation = "varying"
+            )
+        }
+
+        def Plane "CollisionPlane" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            uniform token axis = "Z"
+            uniform token purpose = "guide"
+        }
+    }
+
+    def PhysicsScene "PhysicsScene" (
+        prepend apiSchemas = ["PhysxSceneAPI"]
+    )
+    {
+        vector3f physics:gravityDirection = (0, 0, -1)
+        float physics:gravityMagnitude = 9.8
+        uniform token physxScene:broadphaseType = "MBP"
+        uniform token physxScene:collisionSystem = "PCM"
+        bool physxScene:enableGPUDynamics = 0
+        bool physxScene:enableStabilization = 1
+        uniform token physxScene:solverType = "PGS"
+        uint physxScene:timeStepsPerSecond = 360
+    }
+
+    over "summit_xl" (
+        prepend references = @./urdf/summit_xl_new_two/summit_xl_new_two.usd@
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0.13288074731826782)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "summit_xl_base_link"
+        {
+            point3f physics:centerOfMass = (-0.014, 0, 0.092)
+
+            over "summit_xl_back_left_wheel_joint"
+            {
+                float drive:angular:physics:damping = 1000
+                float drive:angular:physics:targetVelocity = 0
+                custom uniform float isaacmecanumwheel:angle = 45
+                custom uniform float isaacmecanumwheel:radius = 0.127
+                uniform token physics:axis = "Y"
+                point3f physics:localPos0 = (-0.229, 0.235, 0)
+                quatf physics:localRot0 = (1, 0, 0, 0)
+                quatf physics:localRot1 = (1, 0, 0, 0)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "summit_xl_back_right_wheel_joint"
+            {
+                float drive:angular:physics:damping = 1000
+                float drive:angular:physics:targetVelocity = 0
+                custom uniform float isaacmecanumwheel:angle = -45
+                custom uniform float isaacmecanumwheel:radius = 0.127
+                uniform token physics:axis = "Y"
+                quatf physics:localRot0 = (1, 0, 0, 0)
+                quatf physics:localRot1 = (1, 0, 0, 0)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "summit_xl_front_left_wheel_joint"
+            {
+                float drive:angular:physics:damping = 1000
+                float drive:angular:physics:targetVelocity = 0
+                custom uniform float isaacmecanumwheel:angle = -45
+                custom uniform float isaacmecanumwheel:radius = 0.127
+                uniform token physics:axis = "Y"
+                quatf physics:localRot0 = (1, 0, 0, 0)
+                quatf physics:localRot1 = (1, 0, 0, 0)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "summit_xl_front_right_wheel_joint"
+            {
+                float drive:angular:physics:damping = 1000
+                float drive:angular:physics:targetVelocity = 0
+                custom uniform float isaacmecanumwheel:angle = 45
+                custom uniform float isaacmecanumwheel:radius = 0.127
+                uniform token physics:axis = "Y"
+                quatf physics:localRot0 = (1, 0, 0, 0)
+                quatf physics:localRot1 = (1, 0, 0, 0)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            def Xform "com_offset"
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (-0.014, 0, 0.092)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Xform "base_link"
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        over "summit_xl_back_left_wheel_link"
+        {
+            over "back_left_roller10_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_left_roller11_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.7533233, -0.23823094, 0.5141705, 0.3337345)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_left_roller12_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.85483503, -0.31245732, 0.31004593, 0.27477083)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_left_roller1_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_left_roller2_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.85483503, -0.31245732, -0.31004593, -0.27477083)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_left_roller3_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.7533233, -0.23823094, -0.5141705, -0.3337345)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_left_roller4_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_left_roller5_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.75483334, 0.23696387, 0.5063396, -0.34306702)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_left_roller6_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.860084, 0.30467546, 0.29112163, -0.28753543)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_left_roller7_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_left_roller8_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.854774, 0.3051799, -0.32390195, 0.2670471)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_left_roller9_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.7512157, 0.24479577, -0.51706326, 0.32923487)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+        }
+
+        over "summit_xl_back_right_wheel_link"
+        {
+            over "back_right_roller10_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_right_roller11_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.75537354, 0.23164797, 0.5112386, -0.33820873)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_right_roller12_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.8547679, 0.31606048, 0.30308226, -0.27860144)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_right_roller1_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_right_roller2_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.8547679, 0.31606048, -0.30308226, 0.27860144)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_right_roller3_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.7512157, 0.24479577, -0.51706326, 0.32923487)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_right_roller4_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_right_roller5_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.7568725, -0.23036776, 0.50332654, 0.34747255)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_right_roller6_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.8547679, -0.31606048, 0.30308226, 0.27860144)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_right_roller7_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_right_roller8_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.8547679, -0.31606048, -0.30308226, -0.27860144)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "back_right_roller9_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.7533233, -0.23823094, -0.5141705, -0.3337345)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+        }
+
+        over "summit_xl_base_docking_contact_link"
+        {
+        }
+
+        over "summit_xl_laser_stand_link"
+        {
+        }
+
+        over "summit_xl_front_left_wheel_link"
+        {
+            over "front_left_roller10_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_left_roller11_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.7527367, 0.24354193, 0.5093141, -0.33863539)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_left_roller12_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.85749346, 0.30858928, 0.30063948, -0.2812357)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_left_roller1_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_left_roller2_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.85483503, 0.31245732, -0.31004593, 0.27477083)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_left_roller3_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.7533233, 0.23823094, -0.5141705, 0.3337345)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_left_roller4_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_left_roller5_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.7533233, -0.23823094, 0.5141705, 0.3337345)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_left_roller6_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.85483503, -0.31245732, 0.31004593, 0.27477083)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_left_roller7_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_left_roller8_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.85483503, -0.31245732, -0.31004593, -0.27477083)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_left_roller9_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.7533233, -0.23823094, -0.5141705, -0.3337345)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+        }
+
+        over "summit_xl_front_right_wheel_link"
+        {
+            over "front_right_roller10_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_right_roller11_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.7527367, -0.24354193, 0.5093141, 0.33863539)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_right_roller12_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.85483503, -0.31245732, 0.31004593, 0.27477083)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_right_roller1_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_right_roller2_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.85483503, -0.31245732, -0.31004593, -0.27477083)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_right_roller3_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.7533233, -0.23823094, -0.5141705, -0.3337345)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_right_roller4_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_right_roller5_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.7533233, 0.23823094, 0.5141705, -0.3337345)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_right_roller6_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.85483503, 0.31245732, 0.31004593, -0.27477083)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_right_roller7_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_right_roller8_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.85483503, 0.31245732, -0.31004593, 0.27477083)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+
+            over "front_right_roller9_joint"
+            {
+                float drive:angular:physics:damping = 2
+                uniform token physics:axis = "Z"
+                quatf physics:localRot0 = (0.7533233, 0.23823094, -0.5141705, 0.3337345)
+                float state:angular:physics:position = 0
+                float state:angular:physics:velocity = 0
+            }
+        }
+
+        over "summit_xl_imu_link"
+        {
+        }
+
+        over "back_left_roller10_link"
+        {
+        }
+
+        over "back_left_roller11_link"
+        {
+            quatd xformOp:orient = (0.7533232884470521, -0.23823094340988046, 0.5141705161588053, 0.33373450675401506)
+        }
+
+        over "back_left_roller12_link"
+        {
+            quatd xformOp:orient = (0.854835029227525, -0.31245732466915105, 0.3100459421028563, 0.27477082605641656)
+        }
+
+        over "back_left_roller1_link"
+        {
+        }
+
+        over "back_left_roller2_link"
+        {
+            quatd xformOp:orient = (0.854835029227525, -0.31245732466915105, -0.3100459421028563, -0.27477082605641656)
+        }
+
+        over "back_left_roller3_link"
+        {
+            quatd xformOp:orient = (0.7533232884470521, -0.23823094340988046, -0.5141705161588053, -0.33373450675401506)
+        }
+
+        over "back_left_roller4_link"
+        {
+        }
+
+        over "back_left_roller5_link"
+        {
+            quatd xformOp:orient = (0.7548333226501726, 0.2369638742669771, 0.5063396012492796, -0.34306702773074166)
+        }
+
+        over "back_left_roller6_link"
+        {
+            quatd xformOp:orient = (0.8600839716916845, 0.3046754474458192, 0.29112164594891954, -0.28753542498749524)
+        }
+
+        over "back_left_roller7_link"
+        {
+        }
+
+        over "back_left_roller8_link"
+        {
+            quatd xformOp:orient = (0.8547740104275745, 0.30517989286676506, -0.32390194939410455, 0.2670470955956825)
+        }
+
+        over "back_left_roller9_link"
+        {
+            quatd xformOp:orient = (0.7512156734200621, 0.24479577472392083, -0.5170632841412777, 0.3292348719051405)
+        }
+
+        over "back_right_roller10_link"
+        {
+        }
+
+        over "back_right_roller11_link"
+        {
+            quatd xformOp:orient = (0.7553735349890172, 0.23164796988715078, 0.5112385921008351, -0.33820872642809463)
+        }
+
+        over "back_right_roller12_link"
+        {
+            quatd xformOp:orient = (0.8547678900541607, 0.31606048642123524, 0.30308225740217454, -0.2786014506486509)
+        }
+
+        over "back_right_roller1_link"
+        {
+        }
+
+        over "back_right_roller2_link"
+        {
+            quatd xformOp:orient = (0.8547678900541607, 0.31606048642123524, -0.30308225740217454, 0.2786014506486509)
+        }
+
+        over "back_right_roller3_link"
+        {
+            quatd xformOp:orient = (0.7512156734200621, 0.24479577472392083, -0.5170632841412777, 0.3292348719051405)
+        }
+
+        over "back_right_roller4_link"
+        {
+        }
+
+        over "back_right_roller5_link"
+        {
+            quatd xformOp:orient = (0.7568724545708077, -0.2303677716232806, 0.5033265347929612, 0.3474725552940761)
+        }
+
+        over "back_right_roller6_link"
+        {
+            quatd xformOp:orient = (0.8547678900541607, -0.31606048642123524, 0.30308225740217454, 0.2786014506486509)
+        }
+
+        over "back_right_roller7_link"
+        {
+        }
+
+        over "back_right_roller8_link"
+        {
+            quatd xformOp:orient = (0.8547678900541607, -0.31606048642123524, -0.30308225740217454, -0.2786014506486509)
+        }
+
+        over "back_right_roller9_link"
+        {
+            quatd xformOp:orient = (0.7533232884470521, -0.23823094340988046, -0.5141705161588053, -0.33373450675401506)
+        }
+
+        over "summit_xl_front_laser_base_link"
+        {
+            def Xform "front_laser_link"
+            {
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0.0474)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Lidar "summit_lidar"
+                {
+                    bool drawLines = 0
+                    bool drawPoints = 0
+                    bool enabled = 1
+                    bool enableSemantics = 0
+                    bool highLod = 0
+                    float horizontalFov = 360
+                    float horizontalResolution = 0.4
+                    float maxRange = 100
+                    float minRange = 0.4
+                    float rotationRate = 0
+                    float verticalFov = 30
+                    float verticalResolution = 4
+                    double3 xformOp:rotateXYZ
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ"]
+                    float yawOffset = 0
+                }
+            }
+        }
+
+        over "front_left_roller10_link"
+        {
+        }
+
+        over "front_left_roller11_link"
+        {
+            quatd xformOp:orient = (0.7527367072495614, 0.2435419311942053, 0.5093141079845893, -0.33863537428500745)
+        }
+
+        over "front_left_roller12_link"
+        {
+            quatd xformOp:orient = (0.8574934561664506, 0.3085892894709482, 0.3006394915095249, -0.2812357004372403)
+        }
+
+        over "front_left_roller1_link"
+        {
+        }
+
+        over "front_left_roller2_link"
+        {
+            quatd xformOp:orient = (0.854835029227525, 0.31245732466915105, -0.3100459421028563, 0.27477082605641656)
+        }
+
+        over "front_left_roller3_link"
+        {
+            quatd xformOp:orient = (0.7533232884470521, 0.23823094340988046, -0.5141705161588053, 0.33373450675401506)
+        }
+
+        over "front_left_roller4_link"
+        {
+        }
+
+        over "front_left_roller5_link"
+        {
+            quatd xformOp:orient = (0.7533232884470521, -0.23823094340988046, 0.5141705161588053, 0.33373450675401506)
+        }
+
+        over "front_left_roller6_link"
+        {
+            quatd xformOp:orient = (0.854835029227525, -0.31245732466915105, 0.3100459421028563, 0.27477082605641656)
+        }
+
+        over "front_left_roller7_link"
+        {
+        }
+
+        over "front_left_roller8_link"
+        {
+            quatd xformOp:orient = (0.854835029227525, -0.31245732466915105, -0.3100459421028563, -0.27477082605641656)
+        }
+
+        over "front_left_roller9_link"
+        {
+            quatd xformOp:orient = (0.7533232884470521, -0.23823094340988046, -0.5141705161588053, -0.33373450675401506)
+        }
+
+        over "front_right_roller10_link"
+        {
+        }
+
+        over "front_right_roller11_link"
+        {
+            quatd xformOp:orient = (0.7527367072495614, -0.2435419311942053, 0.5093141079845893, 0.33863537428500745)
+        }
+
+        over "front_right_roller12_link"
+        {
+            quatd xformOp:orient = (0.854835029227525, -0.31245732466915105, 0.3100459421028563, 0.27477082605641656)
+        }
+
+        over "front_right_roller1_link"
+        {
+        }
+
+        over "front_right_roller2_link"
+        {
+            quatd xformOp:orient = (0.854835029227525, -0.31245732466915105, -0.3100459421028563, -0.27477082605641656)
+        }
+
+        over "front_right_roller3_link"
+        {
+            quatd xformOp:orient = (0.7533232884470521, -0.23823094340988046, -0.5141705161588053, -0.33373450675401506)
+        }
+
+        over "front_right_roller4_link"
+        {
+        }
+
+        over "front_right_roller5_link"
+        {
+            quatd xformOp:orient = (0.7533232884470521, 0.23823094340988046, 0.5141705161588053, -0.33373450675401506)
+        }
+
+        over "front_right_roller6_link"
+        {
+            quatd xformOp:orient = (0.854835029227525, 0.31245732466915105, 0.3100459421028563, -0.27477082605641656)
+        }
+
+        over "front_right_roller7_link"
+        {
+        }
+
+        over "front_right_roller8_link"
+        {
+            quatd xformOp:orient = (0.854835029227525, 0.31245732466915105, -0.3100459421028563, 0.27477082605641656)
+        }
+
+        over "front_right_roller9_link"
+        {
+            quatd xformOp:orient = (0.7533232884470521, 0.23823094340988046, -0.5141705161588053, 0.33373450675401506)
+        }
+    }
+
+    def OmniGraph "ActionGraph"
+    {
+        token evaluationMode = "Automatic"
+        token evaluator:type = "execution"
+        token fabricCacheBacking = "Shared"
+        int2 fileFormatVersion = (1, 5)
+        token pipelineStage = "pipelineStageSimulation"
+
+        def OmniGraphNode "on_playback_tick" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            token node:type = "omni.graph.action.OnPlaybackTick"
+            int node:typeVersion = 1
+            custom double outputs:deltaSeconds
+            custom double outputs:frame
+            custom uint outputs:tick (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom double outputs:time
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (-120.80139, 2295.5693)
+        }
+
+        def OmniGraphNode "ros2_context" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom uchar inputs:domain_id = 0
+            custom bool inputs:useDomainIDEnvVar = 0
+            token node:type = "omni.isaac.ros2_bridge.ROS2Context"
+            int node:typeVersion = 2
+            custom uint64 outputs:context = 0
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (-184.09897, 2055.4158)
+        }
+
+        def OmniGraphNode "ros2_subscribe_twist" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom uint64 inputs:context = 0
+            prepend uint64 inputs:context.connect = </World/ActionGraph/ros2_context.outputs:context>
+            custom uint inputs:execIn
+            prepend uint inputs:execIn.connect = </World/ActionGraph/on_playback_tick.outputs:tick>
+            custom string inputs:nodeNamespace = ""
+            custom uint64 inputs:queueSize = 10
+            custom string inputs:topicName = "cmd_vel"
+            token node:type = "omni.isaac.ros2_bridge.ROS2SubscribeTwist"
+            int node:typeVersion = 1
+            custom vector3d outputs:angularVelocity = (0, 0, 0)
+            custom uint outputs:execOut (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom vector3d outputs:linearVelocity = (0, 0, 0)
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (607.2911, 781.16504)
+        }
+
+        def OmniGraphNode "scale_to_from_stage_units" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom token inputs:conversion = "Convert to stage units" (
+                allowedTokens = ["Convert to stage units", "Convert to meters"]
+            )
+            custom token inputs:value
+            prepend token inputs:value.connect = </World/ActionGraph/ros2_subscribe_twist.outputs:linearVelocity>
+            token node:type = "omni.isaac.core_nodes.OgnIsaacScaleToFromStageUnit"
+            int node:typeVersion = 1
+            custom token outputs:result
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (1009.3428, 959.8309)
+        }
+
+        def OmniGraphNode "break_3_vector" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom token inputs:tuple
+            prepend token inputs:tuple.connect = </World/ActionGraph/ros2_subscribe_twist.outputs:angularVelocity>
+            token node:type = "omni.graph.nodes.BreakVector3"
+            int node:typeVersion = 1
+            custom token outputs:x
+            custom token outputs:y
+            custom token outputs:z
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (1029.8392, 773.70044)
+        }
+
+        def OmniGraphNode "break_3_vector_01" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom token inputs:tuple
+            prepend token inputs:tuple.connect = </World/ActionGraph/scale_to_from_stage_units.outputs:result>
+            token node:type = "omni.graph.nodes.BreakVector3"
+            int node:typeVersion = 1
+            custom token outputs:x
+            custom token outputs:y
+            custom token outputs:z
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (1298.6483, 952.7701)
+        }
+
+        def OmniGraphNode "make_3_vector" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom token inputs:x
+            prepend token inputs:x.connect = </World/ActionGraph/break_3_vector_01.outputs:x>
+            custom token inputs:y
+            prepend token inputs:y.connect = </World/ActionGraph/break_3_vector_01.outputs:y>
+            custom token inputs:z
+            prepend token inputs:z.connect = </World/ActionGraph/negate.outputs:output>
+            token node:type = "omni.graph.nodes.MakeVector3"
+            int node:typeVersion = 1
+            custom token outputs:tuple
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (1515.2268, 812.0422)
+        }
+
+        def OmniGraphNode "usd_setup_holonomic_robot" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom rel inputs:comPrim
+            delete rel inputs:comPrim = </World/summit_xl/summit_xl_base_link>
+            prepend rel inputs:comPrim = </World/summit_xl/summit_xl_base_link/com_offset>
+            custom token inputs:comPrimPath = ""
+            custom rel inputs:robotPrim
+            prepend rel inputs:robotPrim = </World/summit_xl>
+            custom token inputs:robotPrimPath = ""
+            custom bool inputs:usePath = 0
+            token node:type = "omni.isaac.wheeled_robots.HolonomicRobotUsdSetup"
+            int node:typeVersion = 1
+            custom double[] outputs:mecanumAngles
+            custom double3 outputs:upAxis
+            custom double3 outputs:wheelAxis
+            custom token[] outputs:wheelDofNames
+            custom double4[] outputs:wheelOrientations = []
+            custom double3[] outputs:wheelPositions
+            custom double[] outputs:wheelRadius
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (637.85175, 1271.9794)
+        }
+
+        def OmniGraphNode "holonomic_controller" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom double inputs:angularGain = 1
+            custom uint inputs:execIn
+            prepend uint inputs:execIn.connect = </World/ActionGraph/ros2_subscribe_twist.outputs:execOut>
+            custom double inputs:linearGain = 1
+            custom double inputs:maxAngularSpeed
+            custom double inputs:maxLinearSpeed
+            custom double inputs:maxWheelSpeed
+            custom double[] inputs:mecanumAngles = []
+            prepend double[] inputs:mecanumAngles.connect = </World/ActionGraph/usd_setup_holonomic_robot.outputs:mecanumAngles>
+            custom double3 inputs:upAxis = (0, 0, 0)
+            prepend double3 inputs:upAxis.connect = </World/ActionGraph/usd_setup_holonomic_robot.outputs:upAxis>
+            custom token inputs:velocityCommands
+            prepend token inputs:velocityCommands.connect = </World/ActionGraph/make_3_vector.outputs:tuple>
+            custom double3 inputs:wheelAxis = (0, 0, 0)
+            prepend double3 inputs:wheelAxis.connect = </World/ActionGraph/usd_setup_holonomic_robot.outputs:wheelAxis>
+            custom double4[] inputs:wheelOrientations = []
+            prepend double4[] inputs:wheelOrientations.connect = </World/ActionGraph/usd_setup_holonomic_robot.outputs:wheelOrientations>
+            custom double3[] inputs:wheelPositions = []
+            prepend double3[] inputs:wheelPositions.connect = </World/ActionGraph/usd_setup_holonomic_robot.outputs:wheelPositions>
+            custom double[] inputs:wheelRadius = []
+            prepend double[] inputs:wheelRadius.connect = </World/ActionGraph/usd_setup_holonomic_robot.outputs:wheelRadius>
+            token node:type = "omni.isaac.wheeled_robots.HolonomicController"
+            int node:typeVersion = 1
+            custom double[] outputs:jointEffortCommand
+            custom double[] outputs:jointPositionCommand
+            custom double[] outputs:jointVelocityCommand
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (1062.1741, 1229.6394)
+        }
+
+        def OmniGraphNode "articulation_controller" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom double[] inputs:effortCommand = []
+            custom uint inputs:execIn
+            prepend uint inputs:execIn.connect = </World/ActionGraph/on_playback_tick.outputs:tick>
+            custom int[] inputs:jointIndices = []
+            custom token[] inputs:jointNames = []
+            prepend token[] inputs:jointNames.connect = </World/ActionGraph/usd_setup_holonomic_robot.outputs:wheelDofNames>
+            custom double[] inputs:positionCommand = []
+            custom string inputs:robotPath = ""
+            custom rel inputs:targetPrim
+            prepend rel inputs:targetPrim = </World/summit_xl>
+            custom bool inputs:usePath = 0
+            custom double[] inputs:velocityCommand = []
+            prepend double[] inputs:velocityCommand.connect = </World/ActionGraph/holonomic_controller.outputs:jointVelocityCommand>
+            token node:type = "omni.isaac.core_nodes.IsaacArticulationController"
+            int node:typeVersion = 1
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (1526.6615, 1259.6602)
+        }
+
+        def OmniGraphNode "ros2_publish_laser_scan" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom float2 inputs:azimuthRange = (0, 0)
+            prepend float2 inputs:azimuthRange.connect = </World/ActionGraph/isaac_read_lidar_beams_node.outputs:azimuthRange>
+            custom uint64 inputs:context = 0
+            prepend uint64 inputs:context.connect = </World/ActionGraph/ros2_context.outputs:context>
+            custom float2 inputs:depthRange = (0, 0)
+            prepend float2 inputs:depthRange.connect = </World/ActionGraph/isaac_read_lidar_beams_node.outputs:depthRange>
+            custom uint inputs:execIn
+            prepend uint inputs:execIn.connect = </World/ActionGraph/isaac_read_lidar_beams_node.outputs:execOut>
+            custom string inputs:frameId = "summit_lidar"
+            custom float inputs:horizontalFov = 0
+            prepend float inputs:horizontalFov.connect = </World/ActionGraph/isaac_read_lidar_beams_node.outputs:horizontalFov>
+            custom float inputs:horizontalResolution = 0
+            prepend float inputs:horizontalResolution.connect = </World/ActionGraph/isaac_read_lidar_beams_node.outputs:horizontalResolution>
+            custom uchar[] inputs:intensitiesData = []
+            prepend uchar[] inputs:intensitiesData.connect = </World/ActionGraph/isaac_read_lidar_beams_node.outputs:intensitiesData>
+            custom float[] inputs:linearDepthData = []
+            prepend float[] inputs:linearDepthData.connect = </World/ActionGraph/isaac_read_lidar_beams_node.outputs:linearDepthData>
+            custom string inputs:nodeNamespace = ""
+            prepend string inputs:nodeNamespace.connect = </World/ActionGraph/constant_string.inputs:value>
+            custom int inputs:numCols = 0
+            prepend int inputs:numCols.connect = </World/ActionGraph/isaac_read_lidar_beams_node.outputs:numCols>
+            custom int inputs:numRows = 0
+            prepend int inputs:numRows.connect = </World/ActionGraph/isaac_read_lidar_beams_node.outputs:numRows>
+            custom uint64 inputs:queueSize = 10
+            custom float inputs:rotationRate = 0
+            prepend float inputs:rotationRate.connect = </World/ActionGraph/isaac_read_lidar_beams_node.outputs:rotationRate>
+            custom double inputs:timeStamp = 0
+            prepend double inputs:timeStamp.connect = </World/ActionGraph/isaac_read_simulation_time.outputs:simulationTime>
+            custom string inputs:topicName = "scan"
+            token node:type = "omni.isaac.ros2_bridge.ROS2PublishLaserScan"
+            int node:typeVersion = 1
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (1053.7913, 1732.4481)
+        }
+
+        def OmniGraphNode "isaac_read_lidar_beams_node" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom uint inputs:execIn
+            prepend uint inputs:execIn.connect = </World/ActionGraph/on_playback_tick.outputs:tick>
+            custom rel inputs:lidarPrim
+            prepend rel inputs:lidarPrim = </World/summit_xl/summit_xl_front_laser_base_link/front_laser_link/summit_lidar>
+            token node:type = "omni.isaac.range_sensor.IsaacReadLidarBeams"
+            int node:typeVersion = 1
+            custom float2 outputs:azimuthRange = (0, 0)
+            custom float2 outputs:depthRange = (0, 0)
+            custom uint outputs:execOut (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom float outputs:horizontalFov = 0
+            custom float outputs:horizontalResolution = 0
+            custom uchar[] outputs:intensitiesData = []
+            custom float[] outputs:linearDepthData = []
+            custom int outputs:numCols = 0
+            custom int outputs:numRows = 0
+            custom float outputs:rotationRate = 0
+            custom float outputs:verticalFov = 0
+            custom float outputs:verticalResolution = 0
+            custom float2 outputs:zenithRange = (0, 0)
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (556.23157, 1709.0665)
+        }
+
+        def OmniGraphNode "isaac_read_simulation_time" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom bool inputs:resetOnStop = 0
+            custom int64 inputs:swhFrameNumber = 0
+            token node:type = "omni.isaac.core_nodes.IsaacReadSimulationTime"
+            int node:typeVersion = 1
+            custom double outputs:simulationTime
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (679.28174, 2168.8596)
+        }
+
+        def OmniGraphNode "isaac_compute_odometry_node" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom rel inputs:chassisPrim
+            delete rel inputs:chassisPrim = [
+                </World/summit_xl>,
+                </World/summit_xl/summit_xl_base_link>,
+                </World/summit_xl/summit_xl_base_link/base_link>,
+            ]
+            prepend rel inputs:chassisPrim = </World/summit_xl/summit_xl_base_link>
+            custom uint inputs:execIn
+            prepend uint inputs:execIn.connect = </World/ActionGraph/on_playback_tick.outputs:tick>
+            token node:type = "omni.isaac.core_nodes.IsaacComputeOdometry"
+            int node:typeVersion = 1
+            custom vector3d outputs:angularAcceleration = (0, 0, 0)
+            custom vector3d outputs:angularVelocity = (0, 0, 0)
+            custom uint outputs:execOut (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom vector3d outputs:linearAcceleration = (0, 0, 0)
+            custom vector3d outputs:linearVelocity = (0, 0, 0)
+            custom quatd outputs:orientation = (1, 0, 0, 0)
+            custom vector3d outputs:position = (0, 0, 0)
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (883.46655, 2579.6895)
+        }
+
+        def OmniGraphNode "ros2_publish_odometry" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom vector3d inputs:angularVelocity = (0, 0, 0)
+            prepend vector3d inputs:angularVelocity.connect = </World/ActionGraph/isaac_compute_odometry_node.outputs:angularVelocity>
+            custom string inputs:chassisFrameId = "base_link"
+            custom uint64 inputs:context = 0
+            delete uint64 inputs:context.connect = </World/ActionGraph/ros2_context_02.outputs:context>
+            prepend uint64 inputs:context.connect = </World/ActionGraph/ros2_context.outputs:context>
+            custom uint inputs:execIn
+            prepend uint inputs:execIn.connect = </World/ActionGraph/on_playback_tick.outputs:tick>
+            custom vector3d inputs:linearVelocity = (0, 0, 0)
+            prepend vector3d inputs:linearVelocity.connect = </World/ActionGraph/isaac_compute_odometry_node.outputs:linearVelocity>
+            custom string inputs:nodeNamespace = ""
+            prepend string inputs:nodeNamespace.connect = </World/ActionGraph/constant_string.inputs:value>
+            custom string inputs:odomFrameId = "odom"
+            custom quatd inputs:orientation = (1, 0, 0, 0)
+            prepend quatd inputs:orientation.connect = </World/ActionGraph/isaac_compute_odometry_node.outputs:orientation>
+            custom vector3d inputs:position = (0, 0, 0)
+            prepend vector3d inputs:position.connect = </World/ActionGraph/isaac_compute_odometry_node.outputs:position>
+            custom uint64 inputs:queueSize = 10
+            custom vector3d inputs:robotFront = (1, 0, 0)
+            custom double inputs:timeStamp = 0
+            prepend double inputs:timeStamp.connect = </World/ActionGraph/isaac_read_simulation_time.outputs:simulationTime>
+            custom string inputs:topicName = "odom"
+            token node:type = "omni.isaac.ros2_bridge.ROS2PublishOdometry"
+            int node:typeVersion = 1
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (1349.7725, 2564.7263)
+        }
+
+        def OmniGraphNode "ros2_publish_raw_transform_tree" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom string inputs:childFrameId = "base_link"
+            custom uint64 inputs:context = 0
+            delete uint64 inputs:context.connect = </World/ActionGraph/ros2_context_02.outputs:context>
+            prepend uint64 inputs:context.connect = </World/ActionGraph/ros2_context.outputs:context>
+            custom uint inputs:execIn
+            prepend uint inputs:execIn.connect = </World/ActionGraph/on_playback_tick.outputs:tick>
+            custom string inputs:nodeNamespace = ""
+            prepend string inputs:nodeNamespace.connect = </World/ActionGraph/constant_string.inputs:value>
+            custom string inputs:parentFrameId = "odom"
+            custom uint64 inputs:queueSize = 10
+            custom quatd inputs:rotation = (1, 0, 0, 0)
+            prepend quatd inputs:rotation.connect = </World/ActionGraph/isaac_compute_odometry_node.outputs:orientation>
+            custom double inputs:timeStamp = 0
+            prepend double inputs:timeStamp.connect = </World/ActionGraph/isaac_read_simulation_time.outputs:simulationTime>
+            custom string inputs:topicName = "tf"
+            custom vector3d inputs:translation = (0, 0, 0)
+            prepend vector3d inputs:translation.connect = </World/ActionGraph/isaac_compute_odometry_node.outputs:position>
+            token node:type = "omni.isaac.ros2_bridge.ROS2PublishRawTransformTree"
+            int node:typeVersion = 1
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (1317.6508, 2882.4724)
+        }
+
+        def OmniGraphNode "ros2_publish_transform_tree" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom uint64 inputs:context = 0
+            delete uint64 inputs:context.connect = </World/ActionGraph/ros2_context_02.outputs:context>
+            prepend uint64 inputs:context.connect = </World/ActionGraph/ros2_context.outputs:context>
+            custom uint inputs:execIn
+            prepend uint inputs:execIn.connect = </World/ActionGraph/on_playback_tick.outputs:tick>
+            custom string inputs:nodeNamespace = ""
+            prepend string inputs:nodeNamespace.connect = </World/ActionGraph/constant_string.inputs:value>
+            custom rel inputs:parentPrim
+            delete rel inputs:parentPrim = [
+                </World/summit_xl/summit_xl_base_link>,
+                </World/summit_xl/summit_xl_base_link/base_link>,
+            ]
+            prepend rel inputs:parentPrim = </World/summit_xl/summit_xl_base_link/base_link>
+            custom uint64 inputs:queueSize = 10
+            custom rel inputs:targetPrims
+            delete rel inputs:targetPrims = </World/summit_xl/summit_xl_front_laser_base_link/front_laser_link/summit_lidar>
+            prepend rel inputs:targetPrims = </World/summit_xl>
+            custom double inputs:timeStamp = 0
+            prepend double inputs:timeStamp.connect = </World/ActionGraph/isaac_read_simulation_time.outputs:simulationTime>
+            custom string inputs:topicName = "tf"
+            token node:type = "omni.isaac.ros2_bridge.ROS2PublishTransformTree"
+            int node:typeVersion = 1
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (1339.0317, 3191.3208)
+        }
+
+        def OmniGraphNode "ros2_publish_transform_tree_01" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom uint64 inputs:context = 0
+            delete uint64 inputs:context.connect = </World/ActionGraph/ros2_context_02.outputs:context>
+            prepend uint64 inputs:context.connect = </World/ActionGraph/ros2_context.outputs:context>
+            custom uint inputs:execIn
+            prepend uint inputs:execIn.connect = </World/ActionGraph/on_playback_tick.outputs:tick>
+            custom string inputs:nodeNamespace = ""
+            prepend string inputs:nodeNamespace.connect = </World/ActionGraph/constant_string.inputs:value>
+            custom rel inputs:parentPrim
+            delete rel inputs:parentPrim = [
+                </World/summit_xl/summit_xl_base_link>,
+                </World/summit_xl/summit_xl_base_link/base_link>,
+            ]
+            prepend rel inputs:parentPrim = </World/summit_xl/summit_xl_base_link>
+            custom uint64 inputs:queueSize = 10
+            custom rel inputs:targetPrims
+            delete rel inputs:targetPrims = [
+                </World/summit_xl/summit_xl_front_laser_base_link/front_laser_link/summit_lidar>,
+                </World/summit_xl/summit_xl_front_laser_base_link/front_laser_link>,
+            ]
+            prepend rel inputs:targetPrims = </World/summit_xl/summit_xl_front_laser_base_link/front_laser_link/summit_lidar>
+            custom double inputs:timeStamp = 0
+            prepend double inputs:timeStamp.connect = </World/ActionGraph/isaac_read_simulation_time.outputs:simulationTime>
+            custom string inputs:topicName = "tf"
+            token node:type = "omni.isaac.ros2_bridge.ROS2PublishTransformTree"
+            int node:typeVersion = 1
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (1317.3738, 3440.194)
+        }
+
+        def OmniGraphNode "constant_string" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom string inputs:value = ""
+            token node:type = "omni.graph.nodes.ConstantString"
+            int node:typeVersion = 1
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (-186.9949, 1876.2335)
+        }
+
+        def OmniGraphNode "negate" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom token inputs:input
+            prepend token inputs:input.connect = </World/ActionGraph/break_3_vector.outputs:z>
+            token node:type = "omni.graph.nodes.Negate"
+            int node:typeVersion = 1
+            custom token outputs:output
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (1262.7968, 808.5574)
+        }
+    }
+
+    def PhysicsCollisionGroup "CollisionGroup"
+    {
+        prepend rel collection:colliders:includes = [
+            </World/summit_xl/summit_xl_back_left_wheel_link>,
+            </World/summit_xl/summit_xl_back_right_wheel_link>,
+            </World/summit_xl/summit_xl_front_left_wheel_link>,
+            </World/summit_xl/summit_xl_front_right_wheel_link>,
+        ]
+        prepend rel physics:filteredGroups = </World/CollisionGroup_01>
+    }
+
+    def PhysicsCollisionGroup "CollisionGroup_01"
+    {
+        prepend rel collection:colliders:includes = [
+            </World/summit_xl/back_left_roller10_link>,
+            </World/summit_xl/back_left_roller11_link>,
+            </World/summit_xl/back_left_roller12_link>,
+            </World/summit_xl/back_left_roller1_link>,
+            </World/summit_xl/back_left_roller2_link>,
+            </World/summit_xl/back_left_roller3_link>,
+            </World/summit_xl/back_left_roller4_link>,
+            </World/summit_xl/back_left_roller5_link>,
+            </World/summit_xl/back_left_roller6_link>,
+            </World/summit_xl/back_left_roller7_link>,
+            </World/summit_xl/back_left_roller8_link>,
+            </World/summit_xl/back_left_roller9_link>,
+            </World/summit_xl/back_right_roller10_link>,
+            </World/summit_xl/back_right_roller11_link>,
+            </World/summit_xl/back_right_roller12_link>,
+            </World/summit_xl/back_right_roller1_link>,
+            </World/summit_xl/back_right_roller2_link>,
+            </World/summit_xl/back_right_roller3_link>,
+            </World/summit_xl/back_right_roller4_link>,
+            </World/summit_xl/back_right_roller5_link>,
+            </World/summit_xl/back_right_roller6_link>,
+            </World/summit_xl/back_right_roller7_link>,
+            </World/summit_xl/back_right_roller8_link>,
+            </World/summit_xl/back_right_roller9_link>,
+            </World/summit_xl/front_left_roller10_link>,
+            </World/summit_xl/front_left_roller11_link>,
+            </World/summit_xl/front_left_roller12_link>,
+            </World/summit_xl/front_left_roller1_link>,
+            </World/summit_xl/front_left_roller2_link>,
+            </World/summit_xl/front_left_roller3_link>,
+            </World/summit_xl/front_left_roller4_link>,
+            </World/summit_xl/front_left_roller5_link>,
+            </World/summit_xl/front_left_roller6_link>,
+            </World/summit_xl/front_left_roller7_link>,
+            </World/summit_xl/front_left_roller8_link>,
+            </World/summit_xl/front_left_roller9_link>,
+            </World/summit_xl/front_right_roller10_link>,
+            </World/summit_xl/front_right_roller11_link>,
+            </World/summit_xl/front_right_roller12_link>,
+            </World/summit_xl/front_right_roller1_link>,
+            </World/summit_xl/front_right_roller2_link>,
+            </World/summit_xl/front_right_roller3_link>,
+            </World/summit_xl/front_right_roller4_link>,
+            </World/summit_xl/front_right_roller5_link>,
+            </World/summit_xl/front_right_roller6_link>,
+            </World/summit_xl/front_right_roller7_link>,
+            </World/summit_xl/front_right_roller8_link>,
+            </World/summit_xl/front_right_roller9_link>,
+        ]
+        prepend rel physics:filteredGroups = </World/CollisionGroup>
+    }
+
+    def Mesh "Cube"
+    {
+        float3[] extent = [(-0.5, -0.5, -0.5), (0.5, 0.5, 0.5)]
+        int[] faceVertexCounts = [4, 4, 4, 4, 4, 4]
+        int[] faceVertexIndices = [0, 1, 3, 2, 4, 6, 7, 5, 4, 5, 1, 0, 6, 2, 3, 7, 4, 0, 2, 6, 5, 7, 3, 1]
+        normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0)] (
+            interpolation = "faceVarying"
+        )
+        point3f[] points = [(-0.5, -0.5, 0.5), (0.5, -0.5, 0.5), (-0.5, 0.5, 0.5), (0.5, 0.5, 0.5), (-0.5, -0.5, -0.5), (0.5, -0.5, -0.5), (-0.5, 0.5, -0.5), (0.5, 0.5, -0.5)]
+        float2[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1)] (
+            interpolation = "faceVarying"
+        )
+        uniform token subdivisionScheme = "none"
+        quatd xformOp:orient = (0.9999999961922823, 0, 0, 0.00008726646193644873)
+        double3 xformOp:scale = (100, 100, 0.01)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Material "PhysicsMaterial" (
+        prepend apiSchemas = ["PhysicsMaterialAPI"]
+    )
+    {
+        float physics:dynamicFriction = 0.8
+        float physics:staticFriction = 1
+    }
+
+    def Xform "Xform" (
+        delete apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI"]
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "Xform" (
+            delete apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI"]
+            prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI"]
+        )
+        {
+            bool physics:kinematicEnabled = 0
+            bool physics:rigidBodyEnabled = 1
+            quatd xformOp:orient = (1, 0, 0, 0)
+            double3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Mesh "Cube_01" (
+                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI"]
+            )
+            {
+                float3[] extent = [(-0.5, -0.5, -0.5), (0.5, 0.5, 0.5)]
+                int[] faceVertexCounts = [4, 4, 4, 4, 4, 4]
+                int[] faceVertexIndices = [0, 1, 3, 2, 4, 6, 7, 5, 4, 5, 1, 0, 6, 2, 3, 7, 4, 0, 2, 6, 5, 7, 3, 1]
+                normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token physics:approximation = "convexHull"
+                bool physics:collisionEnabled = 1
+                point3f[] points = [(-0.5, -0.5, 0.5), (0.5, -0.5, 0.5), (-0.5, 0.5, 0.5), (0.5, 0.5, 0.5), (-0.5, -0.5, -0.5), (0.5, -0.5, -0.5), (-0.5, 0.5, -0.5), (0.5, 0.5, -0.5)]
+                float2[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token subdivisionScheme = "none"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (0.1, 30, 2)
+                double3 xformOp:translate = (7.5, 0, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Mesh "Cube" (
+                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI"]
+            )
+            {
+                float3[] extent = [(-0.5, -0.5, -0.5), (0.5, 0.5, 0.5)]
+                int[] faceVertexCounts = [4, 4, 4, 4, 4, 4]
+                int[] faceVertexIndices = [0, 1, 3, 2, 4, 6, 7, 5, 4, 5, 1, 0, 6, 2, 3, 7, 4, 0, 2, 6, 5, 7, 3, 1]
+                normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token physics:approximation = "convexHull"
+                bool physics:collisionEnabled = 1
+                point3f[] points = [(-0.5, -0.5, 0.5), (0.5, -0.5, 0.5), (-0.5, 0.5, 0.5), (0.5, 0.5, 0.5), (-0.5, -0.5, -0.5), (0.5, -0.5, -0.5), (-0.5, 0.5, -0.5), (0.5, 0.5, -0.5)]
+                float2[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token subdivisionScheme = "none"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (15, 0.1, 2)
+                double3 xformOp:translate = (0, 15, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Mesh "Cube_02" (
+                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI"]
+            )
+            {
+                float3[] extent = [(-0.5, -0.5, -0.5), (0.5, 0.5, 0.5)]
+                int[] faceVertexCounts = [4, 4, 4, 4, 4, 4]
+                int[] faceVertexIndices = [0, 1, 3, 2, 4, 6, 7, 5, 4, 5, 1, 0, 6, 2, 3, 7, 4, 0, 2, 6, 5, 7, 3, 1]
+                normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token physics:approximation = "convexHull"
+                bool physics:collisionEnabled = 1
+                point3f[] points = [(-0.5, -0.5, 0.5), (0.5, -0.5, 0.5), (-0.5, 0.5, 0.5), (0.5, 0.5, 0.5), (-0.5, -0.5, -0.5), (0.5, -0.5, -0.5), (-0.5, 0.5, -0.5), (0.5, 0.5, -0.5)]
+                float2[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token subdivisionScheme = "none"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (15, 0.1, 2)
+                double3 xformOp:translate = (0, -15, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Mesh "Cube_03" (
+                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI"]
+            )
+            {
+                float3[] extent = [(-0.5, -0.5, -0.5), (0.5, 0.5, 0.5)]
+                int[] faceVertexCounts = [4, 4, 4, 4, 4, 4]
+                int[] faceVertexIndices = [0, 1, 3, 2, 4, 6, 7, 5, 4, 5, 1, 0, 6, 2, 3, 7, 4, 0, 2, 6, 5, 7, 3, 1]
+                normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token physics:approximation = "convexHull"
+                bool physics:collisionEnabled = 1
+                point3f[] points = [(-0.5, -0.5, 0.5), (0.5, -0.5, 0.5), (-0.5, 0.5, 0.5), (0.5, 0.5, 0.5), (-0.5, -0.5, -0.5), (0.5, -0.5, -0.5), (-0.5, 0.5, -0.5), (0.5, 0.5, -0.5)]
+                float2[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token subdivisionScheme = "none"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (0.1, 30, 2)
+                double3 xformOp:translate = (-7.5, 0, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Mesh "Cube_04" (
+                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI"]
+            )
+            {
+                float3[] extent = [(-0.5, -0.5, -0.5), (0.5, 0.5, 0.5)]
+                int[] faceVertexCounts = [4, 4, 4, 4, 4, 4]
+                int[] faceVertexIndices = [0, 1, 3, 2, 4, 6, 7, 5, 4, 5, 1, 0, 6, 2, 3, 7, 4, 0, 2, 6, 5, 7, 3, 1]
+                normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token physics:approximation = "convexHull"
+                bool physics:collisionEnabled = 1
+                point3f[] points = [(-0.5, -0.5, 0.5), (0.5, -0.5, 0.5), (-0.5, 0.5, 0.5), (0.5, 0.5, 0.5), (-0.5, -0.5, -0.5), (0.5, -0.5, -0.5), (-0.5, 0.5, -0.5), (0.5, 0.5, -0.5)]
+                float2[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token subdivisionScheme = "none"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (12, 0.01, 2)
+                double3 xformOp:translate = (1.5, -11.5, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Mesh "Cube_05" (
+                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI"]
+            )
+            {
+                float3[] extent = [(-0.5, -0.5, -0.5), (0.5, 0.5, 0.5)]
+                int[] faceVertexCounts = [4, 4, 4, 4, 4, 4]
+                int[] faceVertexIndices = [0, 1, 3, 2, 4, 6, 7, 5, 4, 5, 1, 0, 6, 2, 3, 7, 4, 0, 2, 6, 5, 7, 3, 1]
+                normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token physics:approximation = "convexHull"
+                bool physics:collisionEnabled = 1
+                point3f[] points = [(-0.5, -0.5, 0.5), (0.5, -0.5, 0.5), (-0.5, 0.5, 0.5), (0.5, 0.5, 0.5), (-0.5, -0.5, -0.5), (0.5, -0.5, -0.5), (-0.5, 0.5, -0.5), (0.5, 0.5, -0.5)]
+                float2[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token subdivisionScheme = "none"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (7, 0.01, 2)
+                double3 xformOp:translate = (4, -3, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Mesh "Cube_06" (
+                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI"]
+            )
+            {
+                float3[] extent = [(-0.5, -0.5, -0.5), (0.5, 0.5, 0.5)]
+                int[] faceVertexCounts = [4, 4, 4, 4, 4, 4]
+                int[] faceVertexIndices = [0, 1, 3, 2, 4, 6, 7, 5, 4, 5, 1, 0, 6, 2, 3, 7, 4, 0, 2, 6, 5, 7, 3, 1]
+                normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token physics:approximation = "convexHull"
+                bool physics:collisionEnabled = 1
+                point3f[] points = [(-0.5, -0.5, 0.5), (0.5, -0.5, 0.5), (-0.5, 0.5, 0.5), (0.5, 0.5, 0.5), (-0.5, -0.5, -0.5), (0.5, -0.5, -0.5), (-0.5, 0.5, -0.5), (0.5, 0.5, -0.5)]
+                float2[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token subdivisionScheme = "none"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (0.01, 3.5, 2)
+                double3 xformOp:translate = (0.5, -4.75, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Mesh "Cube_07" (
+                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI"]
+            )
+            {
+                float3[] extent = [(-0.5, -0.5, -0.5), (0.5, 0.5, 0.5)]
+                int[] faceVertexCounts = [4, 4, 4, 4, 4, 4]
+                int[] faceVertexIndices = [0, 1, 3, 2, 4, 6, 7, 5, 4, 5, 1, 0, 6, 2, 3, 7, 4, 0, 2, 6, 5, 7, 3, 1]
+                normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token physics:approximation = "convexHull"
+                bool physics:collisionEnabled = 1
+                point3f[] points = [(-0.5, -0.5, 0.5), (0.5, -0.5, 0.5), (-0.5, 0.5, 0.5), (0.5, 0.5, 0.5), (-0.5, -0.5, -0.5), (0.5, -0.5, -0.5), (-0.5, 0.5, -0.5), (0.5, 0.5, -0.5)]
+                float2[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token subdivisionScheme = "none"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (0.01, 3.5, 2)
+                double3 xformOp:translate = (0.5, -9.75, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Mesh "Cube_08" (
+                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI"]
+            )
+            {
+                float3[] extent = [(-0.5, -0.5, -0.5), (0.5, 0.5, 0.5)]
+                int[] faceVertexCounts = [4, 4, 4, 4, 4, 4]
+                int[] faceVertexIndices = [0, 1, 3, 2, 4, 6, 7, 5, 4, 5, 1, 0, 6, 2, 3, 7, 4, 0, 2, 6, 5, 7, 3, 1]
+                normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token physics:approximation = "convexHull"
+                bool physics:collisionEnabled = 1
+                point3f[] points = [(-0.5, -0.5, 0.5), (0.5, -0.5, 0.5), (-0.5, 0.5, 0.5), (0.5, 0.5, 0.5), (-0.5, -0.5, -0.5), (0.5, -0.5, -0.5), (-0.5, 0.5, -0.5), (0.5, 0.5, -0.5)]
+                float2[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token subdivisionScheme = "none"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (0.01, 2, 2)
+                double3 xformOp:translate = (-3, 14, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Mesh "Cube_09" (
+                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI"]
+            )
+            {
+                float3[] extent = [(-0.5, -0.5, -0.5), (0.5, 0.5, 0.5)]
+                int[] faceVertexCounts = [4, 4, 4, 4, 4, 4]
+                int[] faceVertexIndices = [0, 1, 3, 2, 4, 6, 7, 5, 4, 5, 1, 0, 6, 2, 3, 7, 4, 0, 2, 6, 5, 7, 3, 1]
+                normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token physics:approximation = "convexHull"
+                bool physics:collisionEnabled = 1
+                point3f[] points = [(-0.5, -0.5, 0.5), (0.5, -0.5, 0.5), (-0.5, 0.5, 0.5), (0.5, 0.5, 0.5), (-0.5, -0.5, -0.5), (0.5, -0.5, -0.5), (-0.5, 0.5, -0.5), (0.5, 0.5, -0.5)]
+                float2[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token subdivisionScheme = "none"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (0.01, 2, 2)
+                double3 xformOp:translate = (-3, 11, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Mesh "Cube_10" (
+                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI"]
+            )
+            {
+                float3[] extent = [(-0.5, -0.5, -0.5), (0.5, 0.5, 0.5)]
+                int[] faceVertexCounts = [4, 4, 4, 4, 4, 4]
+                int[] faceVertexIndices = [0, 1, 3, 2, 4, 6, 7, 5, 4, 5, 1, 0, 6, 2, 3, 7, 4, 0, 2, 6, 5, 7, 3, 1]
+                normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token physics:approximation = "convexHull"
+                bool physics:collisionEnabled = 1
+                point3f[] points = [(-0.5, -0.5, 0.5), (0.5, -0.5, 0.5), (-0.5, 0.5, 0.5), (0.5, 0.5, 0.5), (-0.5, -0.5, -0.5), (0.5, -0.5, -0.5), (-0.5, 0.5, -0.5), (0.5, 0.5, -0.5)]
+                float2[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token subdivisionScheme = "none"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1.75, 0.01, 2)
+                double3 xformOp:translate = (-6.625, 10, 0.9999999999999705)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Mesh "Cube_11" (
+                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI"]
+            )
+            {
+                float3[] extent = [(-0.5, -0.5, -0.5), (0.5, 0.5, 0.5)]
+                int[] faceVertexCounts = [4, 4, 4, 4, 4, 4]
+                int[] faceVertexIndices = [0, 1, 3, 2, 4, 6, 7, 5, 4, 5, 1, 0, 6, 2, 3, 7, 4, 0, 2, 6, 5, 7, 3, 1]
+                normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token physics:approximation = "convexHull"
+                bool physics:collisionEnabled = 1
+                point3f[] points = [(-0.5, -0.5, 0.5), (0.5, -0.5, 0.5), (-0.5, 0.5, 0.5), (0.5, 0.5, 0.5), (-0.5, -0.5, -0.5), (0.5, -0.5, -0.5), (-0.5, 0.5, -0.5), (0.5, 0.5, -0.5)]
+                float2[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token subdivisionScheme = "none"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1.75, 0.01, 2)
+                double3 xformOp:translate = (-3.875, 10, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Mesh "Cube_12" (
+                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI"]
+            )
+            {
+                float3[] extent = [(-0.5, -0.5, -0.5), (0.5, 0.5, 0.5)]
+                int[] faceVertexCounts = [4, 4, 4, 4, 4, 4]
+                int[] faceVertexIndices = [0, 1, 3, 2, 4, 6, 7, 5, 4, 5, 1, 0, 6, 2, 3, 7, 4, 0, 2, 6, 5, 7, 3, 1]
+                normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token physics:approximation = "convexHull"
+                bool physics:collisionEnabled = 1
+                point3f[] points = [(-0.5, -0.5, 0.5), (0.5, -0.5, 0.5), (-0.5, 0.5, 0.5), (0.5, 0.5, 0.5), (-0.5, -0.5, -0.5), (0.5, -0.5, -0.5), (-0.5, 0.5, -0.5), (0.5, 0.5, -0.5)]
+                float2[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token subdivisionScheme = "none"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (0.01, 10, 2)
+                double3 xformOp:translate = (-3, 5, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Mesh "Cube_13" (
+                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI"]
+            )
+            {
+                float3[] extent = [(-0.5, -0.5, -0.5), (0.5, 0.5, 0.5)]
+                int[] faceVertexCounts = [4, 4, 4, 4, 4, 4]
+                int[] faceVertexIndices = [0, 1, 3, 2, 4, 6, 7, 5, 4, 5, 1, 0, 6, 2, 3, 7, 4, 0, 2, 6, 5, 7, 3, 1]
+                normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token physics:approximation = "convexHull"
+                bool physics:collisionEnabled = 1
+                point3f[] points = [(-0.5, -0.5, 0.5), (0.5, -0.5, 0.5), (-0.5, 0.5, 0.5), (0.5, 0.5, 0.5), (-0.5, -0.5, -0.5), (0.5, -0.5, -0.5), (-0.5, 0.5, -0.5), (0.5, 0.5, -0.5)]
+                float2[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token subdivisionScheme = "none"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1.75, 0.01, 2)
+                double3 xformOp:translate = (-3.87, 0, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Mesh "Cube_14" (
+                prepend apiSchemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI"]
+            )
+            {
+                float3[] extent = [(-0.5, -0.5, -0.5), (0.5, 0.5, 0.5)]
+                int[] faceVertexCounts = [4, 4, 4, 4, 4, 4]
+                int[] faceVertexIndices = [0, 1, 3, 2, 4, 6, 7, 5, 4, 5, 1, 0, 6, 2, 3, 7, 4, 0, 2, 6, 5, 7, 3, 1]
+                normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token physics:approximation = "convexHull"
+                bool physics:collisionEnabled = 1
+                point3f[] points = [(-0.5, -0.5, 0.5), (0.5, -0.5, 0.5), (-0.5, 0.5, 0.5), (0.5, 0.5, 0.5), (-0.5, -0.5, -0.5), (0.5, -0.5, -0.5), (-0.5, 0.5, -0.5), (0.5, 0.5, -0.5)]
+                float2[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1)] (
+                    interpolation = "faceVarying"
+                )
+                uniform token subdivisionScheme = "none"
+                quatd xformOp:orient = (1, 0, 0, 0)
+                double3 xformOp:scale = (1.75, 0.01, 2)
+                double3 xformOp:translate = (-6.625, 0, 1)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
+
+    def OmniGraph "ROS_Clock"
+    {
+        token evaluationMode = "Automatic"
+        token evaluator:type = "execution"
+        token fabricCacheBacking = "Shared"
+        int2 fileFormatVersion = (1, 5)
+        token pipelineStage = "pipelineStageSimulation"
+
+        def OmniGraphNode "on_playback_tick" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            token node:type = "omni.graph.action.OnPlaybackTick"
+            int node:typeVersion = 1
+            custom double outputs:deltaSeconds
+            custom double outputs:frame
+            custom uint outputs:tick (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom double outputs:time
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (-134.5015, 261.3923)
+        }
+
+        def OmniGraphNode "isaac_read_simulation_time" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom bool inputs:resetOnStop = 0
+            custom int64 inputs:swhFrameNumber = 0
+            token node:type = "omni.isaac.core_nodes.IsaacReadSimulationTime"
+            int node:typeVersion = 1
+            custom double outputs:simulationTime
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (-136.96611, 591.9754)
+        }
+
+        def OmniGraphNode "ros2_context" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom uchar inputs:domain_id = 0
+            custom bool inputs:useDomainIDEnvVar = 0
+            token node:type = "omni.isaac.ros2_bridge.ROS2Context"
+            int node:typeVersion = 2
+            custom uint64 outputs:context = 0
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (-109.69054, 443.9167)
+        }
+
+        def OmniGraphNode "ros2_publish_clock" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom uint64 inputs:context = 0
+            prepend uint64 inputs:context.connect = </World/ROS_Clock/ros2_context.outputs:context>
+            custom uint inputs:execIn
+            prepend uint inputs:execIn.connect = </World/ROS_Clock/on_playback_tick.outputs:tick>
+            custom string inputs:nodeNamespace = ""
+            custom uint64 inputs:queueSize = 10
+            custom double inputs:timeStamp = 0
+            prepend double inputs:timeStamp.connect = </World/ROS_Clock/isaac_read_simulation_time.outputs:simulationTime>
+            custom string inputs:topicName = "clock"
+            token node:type = "omni.isaac.ros2_bridge.ROS2PublishClock"
+            int node:typeVersion = 1
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (245.97485, 312.66916)
+        }
+    }
+
+    def Mesh "Cube_01" (
+        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI", "PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysicsMeshCollisionAPI"]
+    )
+    {
+        float3[] extent = [(-0.5, -0.5, -0.5), (0.5, 0.5, 0.5)]
+        int[] faceVertexCounts = [4, 4, 4, 4, 4, 4]
+        int[] faceVertexIndices = [0, 1, 3, 2, 4, 6, 7, 5, 4, 5, 1, 0, 6, 2, 3, 7, 4, 0, 2, 6, 5, 7, 3, 1]
+        normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, -1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (0, 1, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (-1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0)] (
+            interpolation = "faceVarying"
+        )
+        uniform token physics:approximation = "convexHull"
+        bool physics:collisionEnabled = 1
+        bool physics:kinematicEnabled = 0
+        bool physics:rigidBodyEnabled = 1
+        point3f[] points = [(-0.5, -0.5, 0.5), (0.5, -0.5, 0.5), (-0.5, 0.5, 0.5), (0.5, 0.5, 0.5), (-0.5, -0.5, -0.5), (0.5, -0.5, -0.5), (-0.5, 0.5, -0.5), (0.5, 0.5, -0.5)]
+        float2[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (0, 1), (1, 1), (1, 0), (0, 0), (1, 0), (1, 1), (0, 1), (1, 0), (0, 0), (0, 1), (1, 1)] (
+            interpolation = "faceVarying"
+        )
+        uniform token subdivisionScheme = "none"
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (1.7299238366685188, 0, 0.5)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+}
+
+def Xform "Environment"
+{
+    quatd xformOp:orient = (1, 0, 0, 0)
+    double3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    def DistantLight "defaultLight" (
+        prepend apiSchemas = ["ShapingAPI"]
+    )
+    {
+        float angle = 1
+        float intensity = 3000
+        float shaping:cone:angle = 180
+        float shaping:cone:softness
+        float shaping:focus
+        color3f shaping:focusTint
+        asset shaping:ies:file
+        quatd xformOp:orient = (0.6532814824381883, 0.2705980500730985, 0.27059805007309845, 0.6532814824381882)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+}
+
