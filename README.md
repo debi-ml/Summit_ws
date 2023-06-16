@@ -1,6 +1,5 @@
-# Project Title
+# Simulation Design of a Robotic Mobile Manipulator
 
-Simulation Design of a Robotic Mobile Manipulator for Material Acceleration Platforms
 
 ## Description
 
