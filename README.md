@@ -1,5 +1,7 @@
 # Simulation Design of a Robotic Mobile Manipulator
 
+![Robot Image](src/assets/robot_image.png)
+
 
 ## Description
 
