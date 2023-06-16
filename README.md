@@ -24,18 +24,18 @@ The repository contains the necessary code, configurations, and documentation to
 
 ## Installation
 
-1. Install [Isaac Sim](https://example.com) by following the installation instructions provided in the official documentation.
+1. Install [Isaac Sim](https://docs.omniverse.nvidia.com/app_isaacsim/app_isaacsim/install_workstation.html#isaac-sim-app-install-workstation) by following the installation instructions provided in the official documentation.
 
-2. Install [ROS2 Foxy](https://example.com) by following the installation instructions provided in the official documentation.
+2. Install [ROS2 Foxy](https://docs.ros.org/en/foxy/Installation.html) by following the installation instructions provided in the official documentation.
 
-3. Install [nav2](https://example.com) by following the installation instructions provided in the official documentation.
+3. Install [nav2](https://navigation.ros.org/getting_started/index.html) by following the installation instructions provided in the official documentation.
 
 4. Install [Docker](https://example.com) by following the installation instructions provided in the official documentation.
 
 5. Clone the repository:
 
    ```shell
-   git clone https://github.com/your-username/your-repository.git
+   git clone https://github.com/mld95/Summit_ws.git
    ```
 
 6. Build your packages:
@@ -44,7 +44,7 @@ The repository contains the necessary code, configurations, and documentation to
    cd your-repository
    colcon build
    ```
-7. Follow the tutorial [here](https://example.com) to install and build a Ubuntu 22.04 Humble based Docker image with Moveit2.
+7. Follow the tutorial [here](https://moveit.picknik.ai/main/doc/how_to_guides/isaac_panda/isaac_panda_tutorial.html) to install and build a Ubuntu 22.04 Humble based Docker image with Moveit2.
 
 8. Run the Docker container and run the terminal using the following command:
 
@@ -55,6 +55,7 @@ The repository contains the necessary code, configurations, and documentation to
 9. Inside the Docker container, clone and build the forked and modified `pymoveit2` repository for sending the motion commands for the robot arm using the python scripts:
 
    ```shell
+   cd ..
    git clone https://github.com/mld95/pymoveit2.git
    cd pymoveit2
    colcon build
@@ -89,6 +90,7 @@ The repository contains the necessary code, configurations, and documentation to
 6. Source the pymoveit2 package and run one of the examples:
 
    ```shell
+   cd ~/pymoveit2
    source install/local_setup.bash
    ros2 run pymoveit2 grasp_test.py
    ```
@@ -99,5 +101,5 @@ The repository contains the necessary code, configurations, and documentation to
 - Utilizes the Isaac Sim simulation tool and ROS framework for controlling and simulating robotic systems.
 - Implements an omnidirectional mobile manipulator composed of a Summit XL mobile platform and a Franka Emika Panda robot arm.
 - Incorporates the Navigation Stack 2 for autonomous navigation and the Moveit2 platform for motion planning and trajectory execution.
-- Provides a comprehensive testing environment to gain insights into the system's workflow and identify areas for improvement.
+- Provides a testing environment to gain insights into the system's workflow and identify areas for improvement.
 
